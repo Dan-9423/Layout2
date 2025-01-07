@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import Sidebar from './components/Sidebar';
 import TopBanner from './components/TopBanner';
 import DashboardNav from './components/DashboardNav';
-import WelcomeBanner from './components/WelcomeBanner';
+import Home from './pages/Home';
 import Profile from './pages/Profile';
 
 function AppContent() {
@@ -18,7 +18,7 @@ function AppContent() {
           <TopBanner />
           {showDashboardNav && <DashboardNav />}
           <Routes>
-            <Route path="/" element={<WelcomeBanner />} />
+            <Route path="/" element={<Home />} />
             <Route path="/profile" element={<Profile />} />
           </Routes>
         </main>

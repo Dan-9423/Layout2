@@ -42,11 +42,11 @@ export default function Profile() {
   const [showPasswordChange, setShowPasswordChange] = useState(false);
   
   const [user, setUser] = useState({
-    firstName: 'John',
-    lastName: 'Doe',
-    email: 'john.doe@example.com',
+    firstName: 'João',
+    lastName: 'Silva',
+    email: 'joao.silva@exemplo.com',
     phone: '(11) 98765-4321',
-    role: 'Administrator',
+    role: 'Administrador',
     avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
   });
 
@@ -66,8 +66,8 @@ export default function Profile() {
     setUser(editedUser);
     setIsEditing(false);
     toast({
-      title: "Profile updated",
-      description: "Your profile has been successfully updated.",
+      title: "Perfil atualizado",
+      description: "Seu perfil foi atualizado com sucesso.",
     });
   };
 
@@ -79,16 +79,16 @@ export default function Profile() {
   const handleEmailChange = () => {
     setShowEmailChange(false);
     toast({
-      title: "Email updated",
-      description: "Your email has been successfully updated.",
+      title: "E-mail atualizado",
+      description: "Seu e-mail foi atualizado com sucesso.",
     });
   };
 
   const handlePasswordChange = () => {
     setShowPasswordChange(false);
     toast({
-      title: "Password updated",
-      description: "Your password has been successfully updated.",
+      title: "Senha atualizada",
+      description: "Sua senha foi atualizada com sucesso.",
     });
   };
 
@@ -98,7 +98,7 @@ export default function Profile() {
         <Button variant="ghost" size="icon" onClick={() => navigate('/')}>
           <ArrowLeft className="h-5 w-5" />
         </Button>
-        <h1 className="text-2xl font-bold">Profile Settings</h1>
+        <h1 className="text-2xl font-bold">Configurações do Perfil</h1>
       </div>
 
       <div className="mb-6 flex items-center gap-6">
@@ -128,7 +128,7 @@ export default function Profile() {
       <div className="space-y-6">
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="firstName">First Name</Label>
+            <Label htmlFor="firstName">Nome</Label>
             <Input
               id="firstName"
               value={isEditing ? editedUser.firstName : user.firstName}
@@ -137,7 +137,7 @@ export default function Profile() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="lastName">Last Name</Label>
+            <Label htmlFor="lastName">Sobrenome</Label>
             <Input
               id="lastName"
               value={isEditing ? editedUser.lastName : user.lastName}
@@ -149,7 +149,7 @@ export default function Profile() {
 
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="phone">Phone</Label>
+            <Label htmlFor="phone">Telefone</Label>
             <div className="flex gap-2">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -180,7 +180,7 @@ export default function Profile() {
             </div>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="role">Role</Label>
+            <Label htmlFor="role">Cargo</Label>
             <Input
               id="role"
               value={isEditing ? editedUser.role : user.role}
@@ -192,7 +192,7 @@ export default function Profile() {
 
         <div className="space-y-2">
           <div className="flex justify-between items-center">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">E-mail</Label>
             {isEditing && (
               <Button
                 variant="ghost"
@@ -201,7 +201,7 @@ export default function Profile() {
                 onClick={() => setShowEmailChange(true)}
               >
                 <Mail className="w-4 h-4 mr-2" />
-                Change Email
+                Alterar E-mail
               </Button>
             )}
           </div>
@@ -216,7 +216,7 @@ export default function Profile() {
 
         <div className="space-y-2">
           <div className="flex justify-between items-center">
-            <Label>Password</Label>
+            <Label>Senha</Label>
             {isEditing && (
               <Button
                 variant="ghost"
@@ -225,7 +225,7 @@ export default function Profile() {
                 onClick={() => setShowPasswordChange(true)}
               >
                 <KeyRound className="w-4 h-4 mr-2" />
-                Change Password
+                Alterar Senha
               </Button>
             )}
           </div>
@@ -239,15 +239,15 @@ export default function Profile() {
         <div className="flex justify-end gap-4 mt-6">
           {!isEditing ? (
             <Button onClick={() => setIsEditing(true)}>
-              Edit Profile
+              Editar Perfil
             </Button>
           ) : (
             <>
               <Button variant="outline" onClick={handleCancel}>
-                Cancel
+                Cancelar
               </Button>
               <Button onClick={handleSave}>
-                Save Changes
+                Salvar Alterações
               </Button>
             </>
           )}
@@ -257,11 +257,11 @@ export default function Profile() {
       <Dialog open={showEmailChange} onOpenChange={setShowEmailChange}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Change Email Address</DialogTitle>
+            <DialogTitle>Alterar Endereço de E-mail</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label>Current Email</Label>
+              <Label>E-mail Atual</Label>
               <Input
                 type="email"
                 value={emailForm.currentEmail}
@@ -269,7 +269,7 @@ export default function Profile() {
               />
             </div>
             <div className="space-y-2">
-              <Label>New Email</Label>
+              <Label>Novo E-mail</Label>
               <Input
                 type="email"
                 value={emailForm.newEmail}
@@ -277,7 +277,7 @@ export default function Profile() {
               />
             </div>
             <div className="space-y-2">
-              <Label>Confirm New Email</Label>
+              <Label>Confirmar Novo E-mail</Label>
               <Input
                 type="email"
                 value={emailForm.confirmEmail}
@@ -287,10 +287,10 @@ export default function Profile() {
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setShowEmailChange(false)}>
-              Cancel
+              Cancelar
             </Button>
             <Button onClick={handleEmailChange}>
-              Update Email
+              Atualizar E-mail
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -299,11 +299,11 @@ export default function Profile() {
       <Dialog open={showPasswordChange} onOpenChange={setShowPasswordChange}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Change Password</DialogTitle>
+            <DialogTitle>Alterar Senha</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label>Current Password</Label>
+              <Label>Senha Atual</Label>
               <Input
                 type="password"
                 value={passwordForm.currentPassword}
@@ -311,7 +311,7 @@ export default function Profile() {
               />
             </div>
             <div className="space-y-2">
-              <Label>New Password</Label>
+              <Label>Nova Senha</Label>
               <Input
                 type="password"
                 value={passwordForm.newPassword}
@@ -319,7 +319,7 @@ export default function Profile() {
               />
             </div>
             <div className="space-y-2">
-              <Label>Confirm New Password</Label>
+              <Label>Confirmar Nova Senha</Label>
               <Input
                 type="password"
                 value={passwordForm.confirmPassword}
@@ -329,10 +329,10 @@ export default function Profile() {
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setShowPasswordChange(false)}>
-              Cancel
+              Cancelar
             </Button>
             <Button onClick={handlePasswordChange}>
-              Update Password
+              Atualizar Senha
             </Button>
           </DialogFooter>
         </DialogContent>

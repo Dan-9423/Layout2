@@ -1,19 +1,27 @@
 import { useState } from 'react';
-import { Plus, Minus, LayoutDashboard, Users, Settings, BarChart2, FileText, LogOut } from 'lucide-react';
+import { Plus, Minus, LayoutDashboard, Users, Settings, BarChart2, FileText, LogOut, Home, ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { Link, useLocation } from 'react-router-dom';
 
 interface MenuItem {
   title: string;
   icon: JSX.Element;
+  path?: string;
   submenu?: { title: string; path: string }[];
 }
 
 export default function Sidebar() {
+  const location = useLocation();
   const [expandedMenu, setExpandedMenu] = useState<string | null>('Dashboard');
-  const [selectedSubmenu, setSelectedSubmenu] = useState<string>('Overview');
+  const [isExpanded, setIsExpanded] = useState(true);
 
   const menuItems: MenuItem[] = [
+    {
+      title: 'Início',
+      icon: <Home className="w-5 h-5" />,
+      path: '/'
+    },
     {
       title: 'Dashboard',
       icon: <LayoutDashboard className="w-5 h-5" />,
@@ -53,68 +61,103 @@ export default function Sidebar() {
     {
       title: 'Settings',
       icon: <Settings className="w-5 h-5" />,
+      path: '/settings'
     },
   ];
 
   return (
-    <div className="w-64 bg-white dark:bg-[#1C1C1C] shadow-lg h-screen rounded-2xl flex flex-col">
+    <div className={cn(
+      "bg-white dark:bg-[#1C1C1C] shadow-lg h-screen rounded-2xl flex flex-col transition-all duration-300",
+      isExpanded ? "w-64" : "w-20"
+    )}>
       <div className="p-4 flex-1">
         <div className="flex items-center justify-between mb-8">
-          <span className="text-xl font-bold text-blue-600">System Name</span>
+          {isExpanded && <span className="text-xl font-bold text-blue-600">System</span>}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="ml-auto"
+          >
+            {isExpanded ? <ChevronLeft className="h-5 w-5" /> : <ChevronRight className="h-5 w-5" />}
+          </Button>
         </div>
         <nav>
           {menuItems.map((item) => (
             <div key={item.title}>
-              <button
-                onClick={() => setExpandedMenu(expandedMenu === item.title ? null : item.title)}
-                className={cn(
-                  'w-full flex items-center justify-between p-3 rounded-lg mb-1 transition-colors duration-100',
-                  expandedMenu === item.title
-                    ? 'bg-blue-50 dark:bg-[#242424] text-blue-600 dark:text-white'
-                    : 'hover:bg-gray-100 dark:hover:bg-[#242424] hover:text-blue-600 text-gray-700 dark:text-gray-300'
-                )}
-              >
-                <div className="flex items-center gap-3">
-                  <span className="transition-colors duration-100">{item.icon}</span>
-                  <span className="font-medium transition-colors duration-100">{item.title}</span>
-                </div>
-                {item.submenu && (
-                  expandedMenu === item.title ? (
-                    <Minus className="w-4 h-4" />
-                  ) : (
-                    <Plus className="w-4 h-4" />
-                  )
-                )}
-              </button>
-              {item.submenu && expandedMenu === item.title && (
-                <div className="ml-4 mb-2 overflow-hidden animate-slideDown">
-                  {item.submenu.map((sub) => {
-                    const isSelected = selectedSubmenu === sub.title;
-                    return (
-                      <button
-                        key={sub.title}
-                        onClick={() => setSelectedSubmenu(sub.title)}
-                        className={cn(
-                          'w-full text-left p-2 pl-8 rounded-lg mb-1 transition-colors duration-100',
-                          isSelected
-                            ? 'bg-blue-600 text-white'
-                            : 'hover:bg-gray-100 dark:hover:bg-[#242424] hover:text-blue-600 text-gray-600 dark:text-gray-400'
-                        )}
-                      >
-                        {sub.title}
-                      </button>
-                    );
-                  })}
-                </div>
+              {item.path ? (
+                <Link
+                  to={item.path}
+                  className={cn(
+                    'w-full flex items-center gap-3 p-3 rounded-lg mb-1 transition-colors duration-100',
+                    location.pathname === item.path
+                      ? 'bg-blue-600 text-white'
+                      : 'hover:bg-gray-100 dark:hover:bg-[#242424] hover:text-blue-600 text-gray-700 dark:text-gray-300'
+                  )}
+                  title={!isExpanded ? item.title : undefined}
+                >
+                  {item.icon}
+                  {isExpanded && <span className="font-medium">{item.title}</span>}
+                </Link>
+              ) : (
+                <>
+                  <button
+                    onClick={() => isExpanded && setExpandedMenu(expandedMenu === item.title ? null : item.title)}
+                    className={cn(
+                      'w-full flex items-center justify-between p-3 rounded-lg mb-1 transition-colors duration-100',
+                      expandedMenu === item.title
+                        ? 'bg-blue-50 dark:bg-[#242424] text-blue-600 dark:text-white'
+                        : 'hover:bg-gray-100 dark:hover:bg-[#242424] hover:text-blue-600 text-gray-700 dark:text-gray-300'
+                    )}
+                    title={!isExpanded ? item.title : undefined}
+                  >
+                    <div className="flex items-center gap-3">
+                      {item.icon}
+                      {isExpanded && <span className="font-medium">{item.title}</span>}
+                    </div>
+                    {isExpanded && item.submenu && (
+                      expandedMenu === item.title ? (
+                        <Minus className="w-4 h-4" />
+                      ) : (
+                        <Plus className="w-4 h-4" />
+                      )
+                    )}
+                  </button>
+                  {isExpanded && item.submenu && expandedMenu === item.title && (
+                    <div className="ml-4 mb-2 overflow-hidden animate-slideDown">
+                      {item.submenu.map((sub) => (
+                        <Link
+                          key={sub.path}
+                          to={sub.path}
+                          className={cn(
+                            'block w-full text-left p-2 pl-8 rounded-lg mb-1 transition-colors duration-100',
+                            location.pathname === sub.path
+                              ? 'bg-blue-600 text-white'
+                              : 'hover:bg-gray-100 dark:hover:bg-[#242424] hover:text-blue-600 text-gray-600 dark:text-gray-400'
+                          )}
+                        >
+                          {sub.title}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </>
               )}
             </div>
           ))}
         </nav>
       </div>
       <div className="p-4 border-t border-gray-200 dark:border-gray-800">
-        <Button variant="ghost" className="w-full flex items-center justify-center gap-2 text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/10">
+        <Button
+          variant="ghost"
+          className={cn(
+            "w-full flex items-center justify-center gap-2 text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/10",
+            !isExpanded && "px-0"
+          )}
+          title={!isExpanded ? "Logout" : undefined}
+        >
           <LogOut className="h-4 w-4" />
-          Logout
+          {isExpanded && "Logout"}
         </Button>
       </div>
     </div>
