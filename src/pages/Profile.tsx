@@ -1,7 +1,42 @@
-{/* Previous imports stay the same */}
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Camera } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import { useToast } from '@/hooks/use-toast';
 
 export default function Profile() {
-  {/* Previous state and other functions stay the same */}
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  
+  const [user, setUser] = useState({
+    firstName: 'John',
+    lastName: 'Doe',
+    email: 'john.doe@example.com',
+    phone: '+1 234 567 890',
+    role: 'Administrator',
+    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+  });
+
+  const [showEmailChange, setShowEmailChange] = useState(false);
+  const [showPasswordChange, setShowPasswordChange] = useState(false);
+  const [emailForm, setEmailForm] = useState({
+    currentEmail: '',
+    newEmail: '',
+    confirmEmail: ''
+  });
+  const [passwordForm, setPasswordForm] = useState({
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: ''
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Handle form submission
+  };
 
   const handleEmailChange = (e: React.FormEvent) => {
     e.preventDefault();
@@ -91,19 +126,21 @@ export default function Profile() {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="email">E-mail</Label>
+          <div className="flex items-center justify-between">
+            <Label htmlFor="email">E-mail</Label>
+            <button
+              type="button"
+              className="text-sm text-blue-600 hover:text-blue-700 dark:text-blue-500 dark:hover:text-blue-400"
+              onClick={() => setShowEmailChange(!showEmailChange)}
+            >
+              {showEmailChange ? "Cancelar alteração" : "alterar e-mail"}
+            </button>
+          </div>
           <Input
             id="email"
             value={user.email}
             disabled
           />
-          <button
-            type="button"
-            className="text-sm text-blue-600 hover:text-blue-700 dark:text-blue-500 dark:hover:text-blue-400"
-            onClick={() => setShowEmailChange(!showEmailChange)}
-          >
-            {showEmailChange ? "Cancelar alteração" : "alterar e-mail"}
-          </button>
           
           {showEmailChange && (
             <div className="space-y-4 mt-4">
@@ -140,20 +177,22 @@ export default function Profile() {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="password">Senha</Label>
+          <div className="flex items-center justify-between">
+            <Label htmlFor="password">Senha</Label>
+            <button
+              type="button"
+              className="text-sm text-blue-600 hover:text-blue-700 dark:text-blue-500 dark:hover:text-blue-400"
+              onClick={() => setShowPasswordChange(!showPasswordChange)}
+            >
+              {showPasswordChange ? "Cancelar alteração" : "alterar senha"}
+            </button>
+          </div>
           <Input
             type="password"
             id="password"
             value="********"
             disabled
           />
-          <button
-            type="button"
-            className="text-sm text-blue-600 hover:text-blue-700 dark:text-blue-500 dark:hover:text-blue-400"
-            onClick={() => setShowPasswordChange(!showPasswordChange)}
-          >
-            {showPasswordChange ? "Cancelar alteração" : "alterar senha"}
-          </button>
           
           {showPasswordChange && (
             <div className="space-y-4 mt-4">
