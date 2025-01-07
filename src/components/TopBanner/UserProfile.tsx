@@ -34,7 +34,7 @@ export default function UserProfile() {
       <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuItem className="cursor-pointer" onClick={() => navigate('/profile')}>
           <User className="mr-2 h-4 w-4" />
-          <span>Editar Perfil</span>
+          <span>Meu Perfil</span>
         </DropdownMenuItem>
         <DropdownMenuItem className="cursor-pointer">
           <Settings className="mr-2 h-4 w-4" />
